@@ -5,9 +5,9 @@ namespace Mastermind.Game
 {
     public class Board
     {
-        public Stack<List<int>> BoardHistory { get; }
+        public Stack<CodeMaker> BoardHistory { get; }
 
-        public Board(int size = 12) => BoardHistory = new Stack<List<int>>(size);
+        public Board(int size = 12) => BoardHistory = new Stack<CodeMaker>(size);
 
         public void ClearHistory() => BoardHistory.Clear();
     }
