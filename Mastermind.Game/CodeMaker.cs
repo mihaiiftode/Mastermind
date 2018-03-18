@@ -7,10 +7,7 @@ namespace Mastermind.Game
     {
         public List<int> Code { get; } = new List<int>();
 
-        public CodeMaker()
-        {
-            GenerateCode(Settings.BoardHoles);
-        }
+        public CodeMaker() => GenerateCode(Settings.BoardHoles);
 
         public void GenerateCode(int size)
         {
