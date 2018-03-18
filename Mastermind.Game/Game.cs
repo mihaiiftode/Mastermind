@@ -9,37 +9,58 @@ namespace Mastermind.Game
 {
     public class Game
     {
-        public CodeBreaker Breaker { get; }
+        public CodeBreaker Breaker { get; private set; }
         public CodeMaker Maker { get; }
         public Board Board { get; }
+
+        public int CurrentRow { get; private set; } = 1;
 
         public Game(string playerName)
         {
             CheckSettings();
-            Breaker = new CodeBreaker
-            {
-                Name = playerName
-            };
+            Breaker = new CodeBreaker {Name = playerName};
             Maker = new CodeMaker();
             Board = new Board();
         }
 
-        public void InputGuess(List<int> codes)
-        {   
-            if (codes.Count != Settings.BoardHoles) throw new ArgumentOutOfRangeException("To many pegs");
-            Breaker.CurrentCode = codes;
+        public bool InputGuess(List<int> code)
+        {
+            CheckInput(code);
+            CheckTryCount();
+            CurrentRow++;
+            Breaker.CurrentCode = code;
+            var hitList = ExtractHitList();
+
+            SaveHistory();
+
+            return hitList.Count == Settings.BoardHoles;
         }
 
-        public bool CheckCurrentInput()
+        private static void CheckInput(List<int> codes)
+        {
+            if (!codes.TrueForAll(i => i > 0 && i <= Settings.CodePegs))
+                throw new ArgumentOutOfRangeException(nameof(Settings.CodePegs));
+            if (codes.Count != Settings.BoardHoles) throw new ArgumentOutOfRangeException(nameof(Settings.BoardHoles));
+        }
+
+        private void CheckTryCount()
+        {
+            if (CurrentRow > Settings.BoardRows) throw new ArgumentOutOfRangeException(nameof(CurrentRow));
+        }
+
+        private List<int> ExtractHitList()
         {
             var checkList = Breaker.CurrentCode.Except(Maker.Code).ToList();
-            if (checkList.Count <= 0) return true;
+            checkList.ForEach(index =>  Breaker.HitList[index] = index == Maker.Code[index] ? CodeBreaker.HitType.Hit : CodeBreaker.HitType.WrongPosition);
+            return checkList;
+        }
 
-            Breaker.HitList = Enumerable.Repeat(0, Settings.BoardHoles).ToList();
-            checkList.ForEach(index => Breaker.HitList[index] = 1);
-            Board.BoardHistory.Push(Maker);
+        private void SaveHistory()
+        {
+            Board.BoardHistory.Push(Breaker);
 
-            return false;
+            var name = Breaker.Name;
+            Breaker = new CodeBreaker {Name = name};
         }
 
         private void CheckSettings()

@@ -1,4 +1,6 @@
-﻿namespace Mastermind.Game
+﻿using System.IO;
+
+namespace Mastermind.Game
 {
     public static class Settings
     {

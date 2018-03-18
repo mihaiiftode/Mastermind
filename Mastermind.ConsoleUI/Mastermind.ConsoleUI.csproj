@@ -48,5 +48,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mastermind.Game\Mastermind.Game.csproj">
+      <Project>{22159c16-40d3-46e4-973f-2fdaae728639}</Project>
+      <Name>Mastermind.Game</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

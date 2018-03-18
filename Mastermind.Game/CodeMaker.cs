@@ -9,11 +9,12 @@ namespace Mastermind.Game
 
         public CodeMaker() => GenerateCode(Settings.BoardHoles);
 
-        public void GenerateCode(int size)
+        private void GenerateCode(int size)
         {
             var random = new Random();
             Code.Clear();
-            for (var i = 0; i < size; i++)
+            Code.Add(0);
+            for (var i = 1; i <= size; i++)
             {
                 Code.Add(random.Next(1, Settings.CodePegs + 1));
             }
