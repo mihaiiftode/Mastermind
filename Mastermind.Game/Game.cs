@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mastermind.Game
 {
@@ -23,17 +20,22 @@ namespace Mastermind.Game
             Board = new Board();
         }
 
+        /// <summary>
+        /// Checks if current <paramref name="code"/> is correct
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns>true if correct, false if not</returns>
         public bool InputGuess(List<int> code)
         {
             CheckInput(code);
             CheckTryCount();
             CurrentRow++;
             Breaker.CurrentCode = code;
-            var hitList = ExtractHitList();
+            ComputeGuesses();
 
             SaveHistory();
 
-            return hitList.Count == Settings.BoardHoles;
+            return Breaker.HitCount == Settings.BoardHoles;
         }
 
         private static void CheckInput(List<int> codes)
@@ -48,11 +50,14 @@ namespace Mastermind.Game
             if (CurrentRow > Settings.BoardRows) throw new ArgumentOutOfRangeException(nameof(CurrentRow));
         }
 
-        private List<int> ExtractHitList()
+        private void ComputeGuesses()
         {
-            var checkList = Breaker.CurrentCode.Except(Maker.Code).ToList();
-            checkList.ForEach(index =>  Breaker.HitList[index] = index == Maker.Code[index] ? CodeBreaker.HitType.Hit : CodeBreaker.HitType.WrongPosition);
-            return checkList;
+            for (var i = 0; i < Breaker.CurrentCode.Count; i++)
+            {
+                if (Maker.Code[i] == Breaker.CurrentCode[i]) Breaker.HitCount++;
+            }
+            Breaker.WrongPositionCount = Breaker.CurrentCode.Intersect(Maker.Code).Count() - Breaker.HitCount;
+            Breaker.MissCount = Breaker.CurrentCode.Except(Maker.Code).Count();
         }
 
         private void SaveHistory()

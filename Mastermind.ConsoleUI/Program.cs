@@ -20,7 +20,8 @@ namespace ConsoleApp1
             while (_game.CurrentRow <= Settings.BoardRows)
             {
                 Console.Clear();
-                Console.WriteLine($"Current row:{_game.CurrentRow}");
+                Console.WriteLine($"Current row:{_game.CurrentRow}. PLAYER: {_game.Breaker.Name}\n");
+                _game.Maker.Code.ToList().ForEach(Console.Write);
                 WriteHistory();
                 if (_game.InputGuess(GetInput()))
                     Console.WriteLine("You Won!");
@@ -55,7 +56,7 @@ namespace ConsoleApp1
             {
                 codeMaker.CurrentCode.ForEach(i => Console.Write($" {i}"));
                 Console.WriteLine(
-                    $"/ Hit:{codeMaker.HitCount}, Wrong Pos:{codeMaker.HitWrongPosition}, Miss:{codeMaker.Miss}");
+                    $"/ Hit:{codeMaker.HitCount}, Wrong Pos:{codeMaker.WrongPositionCount}, Miss:{codeMaker.MissCount}");
             });
         }
 

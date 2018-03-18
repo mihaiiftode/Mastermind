@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Mastermind.Game
+﻿namespace Mastermind.Game
 {
     public static class Settings
     {

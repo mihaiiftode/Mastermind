@@ -5,18 +5,22 @@ namespace Mastermind.Game
 {
     public class CodeMaker
     {
-        public List<int> Code { get; } = new List<int>();
+        public int[] Code { get; private set; }
 
         public CodeMaker() => GenerateCode(Settings.BoardHoles);
 
+        /// <summary>
+        /// Generate a random code. each position can represent an element with
+        /// a maximum of <see langword="int"/>
+        /// </summary>
+        /// <param name="size"></param>
         private void GenerateCode(int size)
         {
+            Code = new int[Settings.BoardHoles];
             var random = new Random();
-            Code.Clear();
-            Code.Add(0);
-            for (var i = 1; i <= size; i++)
+            for (var i = 0; i < size; i++)
             {
-                Code.Add(random.Next(1, Settings.CodePegs + 1));
+                Code[i] = random.Next(1, Settings.CodePegs + 1);
             }
         }
     }

@@ -9,23 +9,15 @@ namespace Mastermind.Game
 
         public List<int> CurrentCode { get; set; }
 
-        public List<HitType> HitList { get; set; }
 
-        public int HitCount => HitList.Count(item => item == HitType.Hit);
-        public int HitWrongPosition => HitList.Count(item => item == HitType.WrongPosition);
-        public int Miss => HitList.Count(item => item == HitType.Miss);
+        public int HitCount { get; set; }
+        public int WrongPositionCount { get; set; }
+        public int MissCount { get; set; }
+
 
         public CodeBreaker()
         {
             CurrentCode = new List<int>();
-            HitList = Enumerable.Repeat(HitType.Miss, Settings.BoardHoles + 1).ToList();
-        }
-
-        public enum HitType
-        {
-            Miss = 0,
-            Hit = 1,
-            WrongPosition = 2
         }
     }
 }
