@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Mastermind.Game
 {
-    public class Class1
+    public class Game
     {
+    
     }
 }
