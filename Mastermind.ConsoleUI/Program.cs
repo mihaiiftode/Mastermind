@@ -20,8 +20,9 @@ namespace ConsoleApp1
             while (_game.CurrentRow <= Settings.BoardRows)
             {
                 Console.Clear();
-                Console.WriteLine($"Current row:{_game.CurrentRow}. PLAYER: {_game.Breaker.Name}\n");
-                _game.Maker.Code.ToList().ForEach(Console.Write);
+                Console.WriteLine($"Current row:{_game.CurrentRow}. PLAYER: {_game.Breaker.Name}");
+                _game.Maker.Code.ToList().ForEach(Console.Write); // Debug info only
+                Console.WriteLine();
                 WriteHistory();
                 if (_game.InputGuess(GetInput()))
                     Console.WriteLine("You Won!");
